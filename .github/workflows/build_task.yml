@@ -100,8 +100,9 @@ jobs:
         id: set_output
         run: echo "::set-output name=failure::$(<pass_file/failure.txt)"
       - name: get commit message
+        id: set_commitmsg
         run: |
-          echo ::set-env name=commitmsg::$(git log --format=%B -n 1 ${{ github.event.after }})
+          echo ::set-output name=commitmsg::$(git log --format=%B -n 1 ${{ github.event.after }})
       # 失敗したときのSlackへの通知
       - name: Slack Notification Failure
         if: steps.set_output.outputs.failure == 'true'
@@ -114,7 +115,7 @@ jobs:
           SLACK_MESSAGE: |
             Build failure!
             See more detail to check github.
-            commit -> ${{ steps.set-env.env.commitmsg }}
+            commit -> ${{ steps.set_commitmsg.outputs.commitmsg }}
           SLACK_USERNAME: Github Actions
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       # 成功した時のSlackへの通知
@@ -127,6 +128,6 @@ jobs:
           SLACK_TITLE: ':rocket: Build Success :rocket:'
           SLACK_MESSAGE: |
             Build success! yattane!
-            commit -> ${{ steps.set-env.env.commitmsg }}
+            commit -> ${{ steps.set_commitmsg.outputs.commitmsg }}
           SLACK_USERNAME: Github Actions
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
