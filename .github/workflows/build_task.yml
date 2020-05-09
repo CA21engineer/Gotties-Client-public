@@ -102,7 +102,7 @@ jobs:
       - name: log
         run: git log
       - name: echo
-        run: echo "$(git log --format=%B -n 1 ${{ github.event.after }})"
+        run: echo "${{ github.event.head_commit.message }}"
       - name: get commit message
         id: set_commitmsg
         run: echo "::set-output name=commitmsg::$(git log --format=%B -n 1 ${{ github.event.after }})"
