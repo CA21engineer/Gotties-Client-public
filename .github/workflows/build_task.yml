@@ -99,6 +99,8 @@ jobs:
 #       - name: Read file failure.txt and set output parameter
 #         id: set_output
 #         run: echo "::set-output name=failure::$(<pass_file/failure.txt)"
+      - name: echo
+        run: echo "$(git log --format=%B -n 1 ${{ github.event.after }})"
       - name: get commit message
         id: set_commitmsg
         run: echo "::set-output name=commitmsg::$(git log --format=%B -n 1 ${{ github.event.after }})"
