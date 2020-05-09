@@ -91,7 +91,7 @@ jobs:
     if: always()
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v1
 #       - name: Download file post_message.txt
 #         uses: actions/download-artifact@v1
 #         with:
