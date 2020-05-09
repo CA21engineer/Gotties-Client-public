@@ -96,30 +96,30 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: pass_file
-      - name: Read file failure.txt and set output parameter
-        id: set_output
-        run: echo "::set-output name=failure::$(<pass_file/failure.txt)"
+#       - name: Read file failure.txt and set output parameter
+#         id: set_output
+#         run: echo "::set-output name=failure::$(<pass_file/failure.txt)"
       - name: get commit message
         id: set_commitmsg
         run: echo "::set-output name=commitmsg::$(git log --format=%B -n 1 ${{ github.event.after }})"
       # 失敗したときのSlackへの通知
-      - name: Slack Notification Failure
-        if: steps.set_output.outputs.failure == 'true'
-        uses: rtCamp/action-slack-notify@v2.0.1
-        env:
-          SLACK_CHANNEL: gotties-log
-          SLACK_ICON: https://github.com/actions.png?size=48
-          SLACK_COLOR: '#ff0000'
-          SLACK_TITLE: ':fire: Build Failure :fire:'
-          SLACK_MESSAGE: |
-            Build failure!
-            See more detail to check github.
-            commit -> ${{ steps.set_commitmsg.outputs.commitmsg }}
-          SLACK_USERNAME: Github Actions
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+#       - name: Slack Notification Failure
+#         if: steps.set_output.outputs.failure == 'true'
+#         uses: rtCamp/action-slack-notify@v2.0.1
+#         env:
+#           SLACK_CHANNEL: gotties-log
+#           SLACK_ICON: https://github.com/actions.png?size=48
+#           SLACK_COLOR: '#ff0000'
+#           SLACK_TITLE: ':fire: Build Failure :fire:'
+#           SLACK_MESSAGE: |
+#             Build failure!
+#             See more detail to check github.
+#             commit -> ${{ steps.set_commitmsg.outputs.commitmsg }}
+#           SLACK_USERNAME: Github Actions
+#           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       # 成功した時のSlackへの通知
       - name: Slack Notification Success
-        if: steps.set_output.outputs.failure != 'true'
+#         if: steps.set_output.outputs.failure != 'true'
         uses: rtCamp/action-slack-notify@v2.0.1
         env:
           SLACK_CHANNEL: gotties-log
