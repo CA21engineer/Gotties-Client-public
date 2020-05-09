@@ -101,8 +101,7 @@ jobs:
         run: echo "::set-output name=failure::$(<pass_file/failure.txt)"
       - name: get commit message
         id: set_commitmsg
-        run: |
-          echo ::set-output name=commitmsg::$(git log --format=%B -n 1 ${{ github.event.after }})
+        run: echo "::set-output name=commitmsg::$(git log --format=%B -n 1 ${{ github.event.after }})"
       # 失敗したときのSlackへの通知
       - name: Slack Notification Failure
         if: steps.set_output.outputs.failure == 'true'
