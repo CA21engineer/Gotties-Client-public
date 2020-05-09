@@ -92,10 +92,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Download file post_message.txt
-        uses: actions/download-artifact@v1
-        with:
-          name: pass_file
+#       - name: Download file post_message.txt
+#         uses: actions/download-artifact@v1
+#         with:
+#           name: pass_file
 #       - name: Read file failure.txt and set output parameter
 #         id: set_output
 #         run: echo "::set-output name=failure::$(<pass_file/failure.txt)"
