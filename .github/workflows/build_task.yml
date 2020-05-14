@@ -34,10 +34,6 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.7.1
-      - uses: subosito/flutter-action@v1
-        with:
-          flutter-version: '1.17.0'
-          channel: 'stable'
       - name: Bundle
         run: |
       - name: Danger
