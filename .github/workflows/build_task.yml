@@ -38,12 +38,14 @@ jobs:
         with:
           flutter-version: '1.17.0'
           channel: 'stable'
+      - name: Bundle
+        run: |
       - name: Danger
+          gem install bundler
+          bundle install
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gem install bundler
-          bundle install
           bundle exec danger
 
   build-android:
