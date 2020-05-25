@@ -1,5 +1,5 @@
-export 'api_repository.dart';
-export 'base_repository.dart';
+export 'api_client.dart';
+export 'base_client.dart';
 export 'custom_exception.dart';
 export 'entities/entities.dart';
-export 'firestore_repository.dart';
+export 'firestore_client.dart';

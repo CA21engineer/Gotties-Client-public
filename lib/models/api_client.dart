@@ -35,6 +35,12 @@ class ApiClient implements BaseClient {
   }
 
   @override
+  Future<List<Article>> getFilteredArticles(String categoryId) {
+    // TODO: implement getFilteredArticles
+    throw UnimplementedError();
+  }
+
+  @override
   Future<void> postArticle(String title, File before, File after, String body, String categoryId, String userId) async {
     // base64 encode
     final beforeImageBytes = before.readAsBytesSync();

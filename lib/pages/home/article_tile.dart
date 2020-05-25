@@ -61,18 +61,18 @@ class ArticleTile extends StatelessWidget {
                     const Expanded(child: SizedBox()),
                     IconButton(
                       icon: Icon(
-                        Provider.of<ArticleStore>(context).isLike(article.id)
+                        Provider.of<ArticleRepository>(context).isLike(article.id)
                         ? Icons.favorite
                         : Icons.favorite_border,
                         color: Colors.redAccent,
                       ),
                       onPressed: () async {
-                        final store = Provider.of<ArticleStore>(context, listen: false);
-                        final isLike = store.isLike(article.id);
+                        final repository = Provider.of<ArticleRepository>(context, listen: false);
+                        final isLike = repository.isLike(article.id);
                         if(isLike){
-                          await store.unlikeArticle(article.id);
+                          await repository.unlikeArticle(article.id);
                         }else{
-                          await store.likeArticle(article.id);
+                          await repository.likeArticle(article.id);
                         }
                       },
                     ),

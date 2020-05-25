@@ -14,7 +14,7 @@ class CategoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final categories = Provider.of<CategoryStore>(context).searchedCategories;
+    final categories = Provider.of<CategoryRepository>(context).searchedCategories;
     return categories == null
         ? const CircularProgressIndicator()
         : ListView.builder(

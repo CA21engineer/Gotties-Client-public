@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gottiesclient/models/entities/article.dart';
-import 'package:gottiesclient/models/stores/article_store.dart';
 import 'package:gottiesclient/models/stores/share_store.dart';
+import 'package:gottiesclient/models/stores/stores.dart';
 import 'package:gottiesclient/util/converter.dart';
 import 'package:gottiesclient/widgets/icon_button_with_splash.dart';
 import 'package:provider/provider.dart';
@@ -105,18 +105,18 @@ class ContentContainer extends StatelessWidget {
                         width: 45,
                         height: 45,
                         icon: Icon(
-                          Provider.of<ArticleStore>(context).isLike(article.id)
+                          Provider.of<ArticleRepository>(context).isLike(article.id)
                               ? Icons.favorite
                               : Icons.favorite_border,
                           color: Colors.red,
                         ),
                         onTapButton: () {
-                          final store = Provider.of<ArticleStore>(context, listen: false);
-                          final isLike = store.isLike(article.id);
+                          final repository = Provider.of<ArticleRepository>(context, listen: false);
+                          final isLike = repository.isLike(article.id);
                           if (isLike) {
-                            store.unlikeArticle(article.id);
+                            repository.unlikeArticle(article.id);
                           } else {
-                            store.likeArticle(article.id);
+                            repository.likeArticle(article.id);
                           }
                         },
                       ),
@@ -130,13 +130,13 @@ class ContentContainer extends StatelessWidget {
                           article.beforeImageURL,
                         ),
                       ),
-                      if (Provider.of<ArticleStore>(context).isMyArticle(article))
+                      if (Provider.of<ArticleRepository>(context).isMyArticle(article))
                         IconButtonWithSplash(
                           width: 45,
                           height: 45,
                           icon: Icon(Icons.delete),
                           onTapButton: () {
-                            Provider.of<ArticleStore>(context, listen: false).deleteArticle(article);
+                            Provider.of<ArticleRepository>(context, listen: false).deleteArticle(article);
                             Navigator.pop(context);
                           },
                         ),

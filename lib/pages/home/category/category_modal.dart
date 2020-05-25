@@ -58,10 +58,10 @@ class _CategoryModalState extends State<CategoryModal> {
           Flexible(
             child: _buildCategoryList(
               context,
-              Provider.of<CategoryStore>(context).searchedCategories,
+              Provider.of<CategoryRepository>(context).searchedCategories,
               (category) {
-                Provider.of<ArticleStore>(context, listen: false).filterArticles(category);
-                Provider.of<CategoryStore>(context, listen: false).onSelectCategory(category);
+                Provider.of<ArticleRepository>(context, listen: false).filterArticles(category);
+                Provider.of<CategoryRepository>(context, listen: false).onSelectCategory(category);
                 Navigator.pop<void>(context);
               },
             ),

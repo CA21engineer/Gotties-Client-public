@@ -30,7 +30,7 @@ class SearchTextField extends StatelessWidget {
       ),
       onTap: onTapSearchBar,
       onChanged: (word) {
-        Provider.of<CategoryStore>(context, listen: false).searchCategory(word);
+        Provider.of<CategoryRepository>(context, listen: false).searchCategory(word);
       },
     );
   }

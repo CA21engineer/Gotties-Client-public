@@ -60,7 +60,7 @@ class _PostPageState extends State<PostPage> {
                   _isLoading = true;
                 });
                 //ダイアログ出す→トップに戻る確認は以下の3行をコメントアウトした状態で行いました！
-                await Provider.of<ArticleStore>(context, listen: false)
+                await Provider.of<ArticleRepository>(context, listen: false)
                     .postArticle(title, _beforeImage, _afterImage, body, selectedCategory.id);
                 setState(() {
                   _isLoading = false;
@@ -114,14 +114,14 @@ class _PostPageState extends State<PostPage> {
 
   @override
   void initState() {
-    Provider.of<CategoryStore>(context, listen: false).getCategories();
+    Provider.of<CategoryRepository>(context, listen: false).getCategories();
     super.initState();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    selectedCategory = Provider.of<CategoryStore>(context).selectedCategory;
+    selectedCategory = Provider.of<CategoryRepository>(context).selectedCategory;
   }
 
   @override

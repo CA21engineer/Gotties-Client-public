@@ -35,10 +35,10 @@ class HomePage extends StatelessWidget {
       body: Column(
         children: <Widget>[
           ArticleList(
-            articles: Provider.of<ArticleStore>(context).articles,
+            articles: Provider.of<ArticleRepository>(context).articles,
             onTapTile: (article) => Navigator.pushNamed(context, '/detail', arguments: article),
             onRefresh: () async {
-              await Provider.of<ArticleStore>(context, listen: false).getArticles();
+              await Provider.of<ArticleRepository>(context, listen: false).getArticles();
               controller.refreshCompleted();
             },
             controller: controller,

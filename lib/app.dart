@@ -25,10 +25,10 @@ class MyApp extends StatelessWidget {
           return MultiProvider(
             providers: [
               ChangeNotifierProvider(
-                create: (_) => ArticleStore(loginStore, client),
+                create: (_) => ArticleRepository(loginStore, client),
               ),
               ChangeNotifierProvider(
-                create: (_) => CategoryStore(client),
+                create: (_) => CategoryRepository(client),
               ),
               ChangeNotifierProvider(
                 create: (_) => PostPageStore(),

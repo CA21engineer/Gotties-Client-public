@@ -13,6 +13,18 @@ class FirestoreClient implements BaseClient {
   @override
   Future<List<Article>> getArticles() async {
     final documents = (await _firestore.collection('articles').getDocuments()).documents;
+    return mapJsonToArticle(documents);
+  }
+
+  @override
+  Future<List<Article>> getFilteredArticles(String categoryId) async {
+    final categoryRef = _firestore.collection('category').where('id', isEqualTo: categoryId);
+    final articleRef = _firestore.collection('articles');
+    final documents = (await articleRef.where('category', isEqualTo: categoryRef).getDocuments()).documents;
+    return mapJsonToArticle(documents);
+  }
+
+  Future<List<Article>> mapJsonToArticle(List<DocumentSnapshot> documents) {
     return Future.wait(
       documents.map((document) async {
         final data = document.data;

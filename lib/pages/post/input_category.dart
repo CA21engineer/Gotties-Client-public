@@ -21,7 +21,7 @@ class InputCategory extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
             ),
-            onChanged: (word) => Provider.of<CategoryStore>(context, listen: false).searchCategory(word),
+            onChanged: (word) => Provider.of<CategoryRepository>(context, listen: false).searchCategory(word),
           ),
           const SizedBox(
             height: 16,
@@ -34,7 +34,7 @@ class InputCategory extends StatelessWidget {
               child: CategoryList(
                 scrollDirection: Axis.horizontal,
                 onTapCategory: (category) {
-                  final store = Provider.of<CategoryStore>(
+                  final store = Provider.of<CategoryRepository>(
                     context,
                     listen: false,
                   )..onSelectCategory(category);

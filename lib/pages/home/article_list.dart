@@ -44,7 +44,7 @@ class ArticleList extends StatelessWidget {
                           alignment: Alignment.centerLeft,
                           margin: const EdgeInsets.only(top: 16, left: 8, bottom: 8),
                           child: Text(
-                            '${Provider.of<CategoryStore>(context).selectedCategory?.title ?? 'ALL'}',
+                            '${Provider.of<CategoryRepository>(context).selectedCategory?.title ?? 'ALL'}',
                             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                           ),
                         ),
