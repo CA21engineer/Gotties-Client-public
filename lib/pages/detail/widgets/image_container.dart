@@ -62,9 +62,16 @@ class ImageContainer extends StatelessWidget {
           ConstrainedBox(
             constraints: BoxConstraints.expand(height: _height),
             child: CachedNetworkImage(
-              placeholder: (context, url) => const Center(
-                child: CircularProgressIndicator(),
-              ),
+              progressIndicatorBuilder: (context, url, downloadProgress) {
+                if (downloadProgress.progress == 1.0) {
+                  print('画像取得終わり！');
+                }
+                return const Center(
+                  child: CircularProgressIndicator(
+                    backgroundColor: Colors.green,
+                  ),
+                );
+              },
               imageUrl: beforeImageURL,
               fit: BoxFit.fitWidth,
             ),
