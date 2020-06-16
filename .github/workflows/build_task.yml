@@ -3,11 +3,11 @@ name: CI
 on:
   push:
     branches: [ master ]
-    paths-ignore: 
+    paths-ignore:
       - firebase/**
   pull_request:
     branches: [ master ]
-    paths-ignore: 
+    paths-ignore:
       - firebase/**
 
 # add [skip ci] to pull_request title to skip ci check!
@@ -17,59 +17,60 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: subosito/flutter-action@v1
-        with:
-          flutter-version: '1.17.0'
-          channel: 'stable'
-      - name: Flutter analyze
-        run: ./scripts/analyze.sh
-      - name: Cache bundle
-        uses: actions/cache@v1
-        with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-gem-
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 2.7.1
-      - name: Danger
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gem install bundler
-          bundle install
-          bundle exec danger
+  #      - uses: subosito/flutter-action@v1
+  #        with:
+  #          flutter-version: '1.17.0'
+  #          channel: 'stable'
+  #      - name: Flutter analyze
+  #        run: ./scripts/analyze.sh
+  #      - name: Cache bundle
+  #        uses: actions/cache@v1
+  #        with:
+  #          path: vendor/bundle
+  #          key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
+  #          restore-keys: |
+  #            ${{ runner.os }}-gem-
+  #      - name: Setup Ruby
+  #        uses: ruby/setup-ruby@v1
+  #        with:
+  #          ruby-version: 2.7.1
+  #      - name: Danger
+  #        env:
+  #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #        run: |
+  #          gem install bundler
+  #          bundle install
+  #          bundle exec danger
 
   build-android:
     if: ${{ !contains(github.event.pull_request.title, '[skip ci]') }}
     runs-on: ubuntu-latest
     needs: [analyze]
     steps:
-      - uses: actions/checkout@v2
-      - uses: subosito/flutter-action@v1
-        with:
-          flutter-version: '1.17.0'
-          channel: 'stable'
-      - uses: actions/cache@v1
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-      - name: Pub get
-        run: flutter pub get
-      - name: Generate google-services.json
-        env:
-          GOOGLE_SERVICES_BASE64: ${{ secrets.GOOGLE_SERVICES_BASE64 }}
-        run: echo $GOOGLE_SERVICES_BASE64 | base64 --decode --ignore-garbage > $GITHUB_WORKSPACE/android/app/google-services.json
-      - name: Android build
-        run: flutter build apk --release
-      - uses: actions/upload-artifact@v2
-        with:
-          name: generated_apk
-          path: ./build/app/outputs/apk/release/app-release.apk
+      - run: exit 1
+      #      - uses: actions/checkout@v2
+      #      - uses: subosito/flutter-action@v1
+      #        with:
+      #          flutter-version: '1.17.0'
+      #          channel: 'stable'
+      #      - uses: actions/cache@v1
+      #        with:
+      #          path: ~/.gradle/caches
+      #          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+      #          restore-keys: |
+      #            ${{ runner.os }}-gradle-
+      #      - name: Pub get
+      #        run: flutter pub get
+      #      - name: Generate google-services.json
+      #        env:
+      #          GOOGLE_SERVICES_BASE64: ${{ secrets.GOOGLE_SERVICES_BASE64 }}
+      #        run: echo $GOOGLE_SERVICES_BASE64 | base64 --decode --ignore-garbage > $GITHUB_WORKSPACE/android/app/google-services.json
+      #      - name: Android build
+      #        run: flutter build apk --release
+      #      - uses: actions/upload-artifact@v2
+      #        with:
+      #          name: generated_apk
+      #          path: ./build/app/outputs/apk/release/app-release.apk
       - name: Create file failure.txt and write 'true' into it
         if: always()
         run: echo ${{ job.status == 'failure' }} > failure.txt
@@ -80,48 +81,51 @@ jobs:
           name: pass_file
           path: failure.txt
 
-  build-ios:
-    if: ${{ !contains(github.event.pull_request.title, '[skip ci]') }}
-    runs-on: macos-latest
-    needs: [analyze]
-    steps:
-      - uses: actions/checkout@v2
-      - uses: subosito/flutter-action@v1
-        with:
-          flutter-version: '1.17.0'
-          channel: 'stable'
-      - uses: actions/cache@v1
-        with:
-          path: ios/Pods
-          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pods-
-      - name: Pub get
-        run: flutter pub get
-      - name: Generate GoogleService-Info.plist
-        env:
-          GOOGLE_SERVICE_INFO_BASE64: ${{ secrets.GOOGLE_SERVICE_INFO_BASE64 }}
-        run: echo $GOOGLE_SERVICE_INFO_BASE64 | base64 --decode > $GITHUB_WORKSPACE/ios/Runner/GoogleService-Info.plist
-      - name: iOS build
-        run: flutter build ios --release --no-codesign
-      # TODO: upload ipa
-      - name: Create file failure.txt and write 'true' into it
-        if: always()
-        run: echo ${{ job.status == 'failure' }} > failure.txt
-      - name: Upload file about failure
-        if: always()
-        uses: actions/upload-artifact@v1
-        with:
-          name: pass_file
-          path: failure.txt
+  #  build-ios:
+  #    if: ${{ !contains(github.event.pull_request.title, '[skip ci]') }}
+  #    runs-on: macos-latest
+  #    needs: [analyze]
+  #    steps:
+  #      - uses: actions/checkout@v2
+  #      - uses: subosito/flutter-action@v1
+  #        with:
+  #          flutter-version: '1.17.0'
+  #          channel: 'stable'
+  #      - uses: actions/cache@v1
+  #        with:
+  #          path: ios/Pods
+  #          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+  #          restore-keys: |
+  #            ${{ runner.os }}-pods-
+  #      - name: Pub get
+  #        run: flutter pub get
+  #      - name: Generate GoogleService-Info.plist
+  #        env:
+  #          GOOGLE_SERVICE_INFO_BASE64: ${{ secrets.GOOGLE_SERVICE_INFO_BASE64 }}
+  #        run: echo $GOOGLE_SERVICE_INFO_BASE64 | base64 --decode > $GITHUB_WORKSPACE/ios/Runner/GoogleService-Info.plist
+  #      - name: iOS build
+  #        run: flutter build ios --release --no-codesign
+  #      # TODO: upload ipa
+  #      - name: Create file failure.txt and write 'true' into it
+  #        if: always()
+  #        run: echo ${{ job.status == 'failure' }} > failure.txt
+  #      - name: Upload file about failure
+  #        if: always()
+  #        uses: actions/upload-artifact@v1
+  #        with:
+  #          name: pass_file
+  #          path: failure.txt
+
   distribute_app:
-    needs: [build-android, build-ios]
-    if: ${{ !contains(github.event.pull_request.title, '[skip ci]') }} && always()
+    #    needs: [build-android, build-ios]
+    needs: [build-android]
+    if: ${{ !contains(github.event.pull_request.title, '[skip ci]') }} && ${{ needs.build-android.result == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.head.sha }}
+      - run: echo ${{ needs.build-android.result == 'failure' }}
       - name: Cache bundle
         uses: actions/cache@v1
         with:
@@ -158,9 +162,41 @@ jobs:
           APK_PATH: ./app-release.apk
           RELEASE_NOTE: ${{ github.head_ref }}
         run: bundle exec fastlane android distribute_app
-  notification:
+
+  notification_success:
     needs: [distribute_app]
-    if: ${{ !contains(github.event.pull_request.title, '[skip ci]') }} && always()
+    if: ${{ !contains(github.event.pull_request.title, '[skip ci]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Download file post_message.txt
+        uses: actions/download-artifact@v1
+        with:
+          name: pass_file
+      - name: Read file failure.txt and set output parameter
+        id: set_output
+        run: echo "::set-output name=failure::$(<pass_file/failure.txt)"
+      - name: get commit message
+        id: set_commitmsg
+        run: echo "::set-output name=commitmsg::$(git log --format=%B -n 1 ${{ github.event.after }})"
+      # 成功した時のSlackへの通知
+      - name: Slack Notification Success
+        uses: rtCamp/action-slack-notify@v2.0.1
+        env:
+          SLACK_CHANNEL: gotties-log
+          SLACK_ICON: https://github.com/actions.png?size=48
+          SLACK_TITLE: ':rocket: Build Success :rocket:'
+          SLACK_MESSAGE: |
+            Build success! yattane!
+            commit -> `${{ steps.set_commitmsg.outputs.commitmsg }}`
+          SLACK_USERNAME: Github Actions
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+  notification_failure:
+    needs: [distribute_app]
+    if: ${{ !contains(github.event.pull_request.title, '[skip ci]') }} && ${{ failure() }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -178,7 +214,7 @@ jobs:
         run: echo "::set-output name=commitmsg::$(git log --format=%B -n 1 ${{ github.event.after }})"
       # 失敗したときのSlackへの通知
       - name: Slack Notification Failure
-        if: steps.set_output.outputs.failure == 'true'
+        #        if: ${{ needs.distribute_app.result == 'failure' }}
         uses: rtCamp/action-slack-notify@v2.0.1
         env:
           SLACK_CHANNEL: gotties-log
@@ -188,19 +224,6 @@ jobs:
           SLACK_MESSAGE: |
             Build failure!
             See more detail to check github.
-            commit -> `${{ steps.set_commitmsg.outputs.commitmsg }}`
-          SLACK_USERNAME: Github Actions
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-      # 成功した時のSlackへの通知
-      - name: Slack Notification Success
-        if: steps.set_output.outputs.failure != 'true'
-        uses: rtCamp/action-slack-notify@v2.0.1
-        env:
-          SLACK_CHANNEL: gotties-log
-          SLACK_ICON: https://github.com/actions.png?size=48
-          SLACK_TITLE: ':rocket: Build Success :rocket:'
-          SLACK_MESSAGE: |
-            Build success! yattane!
             commit -> `${{ steps.set_commitmsg.outputs.commitmsg }}`
           SLACK_USERNAME: Github Actions
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
